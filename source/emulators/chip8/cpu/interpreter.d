@@ -2,9 +2,11 @@ module emulators.chip8.cpu.interpreter;
 
 import std.stdio;
 import std.format;
+import std.logger;
 
 import emulators.chip8.memory;
 import emulators.chip8.cpu.common;
+import emulators.chip8.display.common;
 
 class Interpreter : CPU
 {
@@ -12,13 +14,13 @@ private:
     void unknown_opcode(Memory memory, ushort opcode)
     {
         throw new Exception(format(
-            "Unknown CHIP8 opcode found at address 0x%04X: %04X",
+            "(CHIP8): Unknown opcode found at address 0x%04X: %04X",
             memory.PC - 2, opcode
         ));
     }
 
 public:
-    override void execute(Memory memory)
+    override void execute(Memory memory, Display display, Logger logger)
     {
         if(!memory.running)
             return;
@@ -38,12 +40,22 @@ public:
             switch(nn)
             {
             case 0x00E0:
-                memory.clear_display();
+                display.clear();
                 break;
             default:
                 unknown_opcode(memory, opcode);
                 break;
             }
+            break;
+
+        case 0x1:
+            memory.PC -= 2;
+            if(nnn == memory.PC)
+            {
+                memory.running = false;
+                logger.info(format("\n\t(CHIP8): Emulator will stop as an infinite jump to address 0x%04X has been found.", memory.PC));
+            }
+            memory.PC = nnn;
             break;
 
         case 0x6:
@@ -52,6 +64,10 @@ public:
 
         case 0xA:
             memory.I = nnn;
+            break;
+
+        case 0xD:
+            display.draw_sprite(memory.registers[x], memory.registers[y], memory.get_slice(memory.I, n));
             break;
 
         default:

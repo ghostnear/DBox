@@ -49,8 +49,8 @@ public:
         memory[address + 1] = cast(ubyte)value;
     }
 
-    void clear_display()
+    ubyte[] get_slice(ushort start, ushort end)
     {
-        // Stub.
+        return memory[start .. start + end];
     }
 }

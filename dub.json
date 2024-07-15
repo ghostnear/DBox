@@ -1,3 +1,6 @@
 {
+	"dependencies": {
+		"terminal": "~>1.0.0"
+	},
 	"name": "d-box"
 }

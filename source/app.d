@@ -7,6 +7,7 @@ import std.logger;
 import common.emulator;
 import emulators.chip8.cpu.interpreter;
 import emulators.chip8.emulator;
+import emulators.chip8.display.cli;
 
 immutable romPath = "roms/chip8/timendus/1-chip8-logo.ch8";
 
@@ -20,12 +21,13 @@ void main(string[] arguments)
         auto settings = new CHIP8Settings()
             .set_CPU(new Interpreter())
             .set_rom_path(romPath)
+            .set_display(new CLIDisplay())
             .set_logger(logger);
         
         Emulator emulator = new CHIP8Emulator(settings);
         emulator.run_on_this_thread();
     }
     catch(Exception error) {
-        logger.error(i"\n\tAn error has occured while running the emulator:\n\t\t$(error.msg)");
+        logger.error(i"\n\tAn error has occured while running the app:\n\t\t$(error.msg)");
     }
 }

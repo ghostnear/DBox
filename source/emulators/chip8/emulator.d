@@ -15,11 +15,18 @@ class CHIP8Settings
 public:
     string romPath;
     Logger logger;
+    Display display;
     CPU cpu;
 
     CHIP8Settings set_rom_path(string romPath)
     {
         this.romPath = romPath;
+        return this;
+    }
+
+    CHIP8Settings set_display(Display display)
+    {
+        this.display = display;
         return this;
     }
 
@@ -41,34 +48,39 @@ class CHIP8Emulator : Emulator
 private:
     CPU cpu;
     Memory memory;
+    Display display;
 
 public:
     this(ref CHIP8Settings config)
     {
         logger = config.logger;
+        display = config.display;
         cpu = config.cpu;
 
         memory = new Memory();
         
         auto file = File(config.romPath);
         if(file.size > memory.size - memory.startAddress)
-            throw new Exception("ROM file is too large.");
+            throw new Exception("(CHIP8): ROM file is too large.");
 
         auto input = new ubyte[file.size];
         file.rawRead(input);
         memory.copy(input, cast(ushort)memory.startAddress);
 
-        logger.info(i"\n\tCHIP8 ROM file with size $(file.size)B loaded into memory.");
+        logger.info(i"\n\t(CHIP8): ROM file with size $(file.size)B from path '$(config.romPath)' was loaded into memory.");
     }
 
     override void run_on_this_thread()
     {
-        logger.info("\n\tCHIP8 emulator is running on this thread.");
+        logger.info("\n\t(CHIP8): Emulator is running on this thread.");
 
         memory.running = true;
         while(memory.running)
-            cpu.execute(memory);
+        {
+            cpu.execute(memory, display, logger);
+            display.draw();
+        }
 
-        logger.info("\n\tCHIP8 emulator has stopped running on this thread.");
+        logger.info("\n\t(CHIP8): Emulator has stopped running on this thread.");
     }
 }

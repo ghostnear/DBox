@@ -6,4 +6,5 @@ __dummy.html
 *.pdb
 *.obj
 *.log
+*.selections.json
 roms/
