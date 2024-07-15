@@ -4,14 +4,22 @@ class Memory
 {
 private:
     ubyte[size] memory;
-
+    
 public:
     const int size = 0x10000;
-    const int startAddress = 0x200;
+    const ushort startAddress = 0x200;
+
+    ushort PC, I;
+    ubyte[0x10] registers;
+    bool running;
 
     this()
     {
         memory[] = 0;
+        registers[] = 0;
+        running = false;
+        PC = startAddress;
+        I = 0;
     }
 
     void copy(ubyte[] data, ushort startAddress)
@@ -20,13 +28,29 @@ public:
         memory[startAddress .. startAddress + data.length] = data;
     }
 
-    ubyte read(ushort address)
+    ubyte get_byte(ushort address)
     {
         return memory[address];
     }
 
-    void write(ushort address, ubyte value)
+    ushort get_word(ushort address)
+    {
+        return memory[address] << 8 | memory[address + 1];
+    }
+
+    void set_byte(ushort address, ubyte value)
     {
         memory[address] = value;
+    }
+
+    void set_word(ushort address, ushort value)
+    {
+        memory[address] = cast(ubyte)(value >> 8);
+        memory[address + 1] = cast(ubyte)value;
+    }
+
+    void clear_display()
+    {
+        // Stub.
     }
 }

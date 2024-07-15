@@ -6,6 +6,8 @@ import std.logger;
 
 import common.emulator;
 import emulators.chip8.memory;
+import emulators.chip8.cpu.common;
+import emulators.chip8.cpu.interpreter;
 import emulators.chip8.display.common;
 
 class CHIP8Settings
@@ -13,17 +15,23 @@ class CHIP8Settings
 public:
     string romPath;
     Logger logger;
+    CPU cpu;
 
-    // TODO: replace this maybe with command line argument parsing.
-    CHIP8Settings from_rom_path(string romPath)
+    CHIP8Settings set_rom_path(string romPath)
     {
         this.romPath = romPath;
         return this;
     }
 
-    CHIP8Settings setLogger(Logger logger)
+    CHIP8Settings set_logger(Logger logger)
     {
         this.logger = logger;
+        return this;
+    }
+
+    CHIP8Settings set_CPU(CPU cpu)
+    {
+        this.cpu = cpu;
         return this;
     }
 }
@@ -31,12 +39,14 @@ public:
 class CHIP8Emulator : Emulator
 {
 private:
+    CPU cpu;
     Memory memory;
 
 public:
     this(ref CHIP8Settings config)
     {
-        this.logger = config.logger;
+        logger = config.logger;
+        cpu = config.cpu;
 
         memory = new Memory();
         
@@ -53,6 +63,12 @@ public:
 
     override void run_on_this_thread()
     {
-        // Stub.
+        logger.info("\n\tCHIP8 emulator is running on this thread.");
+
+        memory.running = true;
+        while(memory.running)
+            cpu.execute(memory);
+
+        logger.info("\n\tCHIP8 emulator has stopped running on this thread.");
     }
 }
