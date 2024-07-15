@@ -18,6 +18,7 @@ void main(string[] arguments)
     Logger logger = new FileLogger("./last.log");
 
     try {
+        // TODO: replace this with a CLI parser, maybe? If nothing is passed, put maybe some sensible defaults.
         auto settings = new CHIP8Settings()
             .set_CPU(new Interpreter())
             .set_rom_path(romPath)
