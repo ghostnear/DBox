@@ -1,6 +1,19 @@
 {
 	"dependencies": {
-		"terminal": "~>1.0.0"
+		"bindbc-sdl": "~>1.4.8"
 	},
-	"name": "d-box"
+	"versions": [
+		"SDL_2_30"
+	],
+	"libs": [
+		"SDL2"
+	],
+	"subConfigurations": {
+		"bindbc-sdl": "dynamic"
+	},
+	"authors": [
+		"GhostNear"
+	],
+	"description": "A simple emulator written in D.",
+	"name": "dbox"
 }

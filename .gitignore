@@ -5,6 +5,8 @@ __dummy.html
 *.exe
 *.pdb
 *.obj
+*.lib
 *.log
 *.selections.json
 roms/
+lib/

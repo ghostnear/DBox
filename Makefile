@@ -1,7 +1,8 @@
 .PHONY: all
 
 clean:
-	@rm -f d-box.*
+	@cmake -E remove d-box.exe
+	@cmake -E remove d-box.pdb
 	@echo "[CLEAN]: Done."
 
 build-release:
@@ -16,4 +17,4 @@ build:
 	@make build-debug
 
 run:
-	@./d-box
+	@./dbox

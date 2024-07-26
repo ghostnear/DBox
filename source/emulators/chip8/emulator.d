@@ -3,8 +3,11 @@ module emulators.chip8.emulator;
 import std.file;
 import std.stdio;
 import std.logger;
+import core.thread;
 
+import common.logger;
 import common.emulator;
+import common.delta_timing;
 import emulators.chip8.memory;
 import emulators.chip8.cpu.common;
 import emulators.chip8.cpu.interpreter;
@@ -14,7 +17,6 @@ class CHIP8Settings
 {
 public:
     string romPath;
-    Logger logger;
     Display display;
     CPU cpu;
 
@@ -27,12 +29,6 @@ public:
     CHIP8Settings set_display(Display display)
     {
         this.display = display;
-        return this;
-    }
-
-    CHIP8Settings set_logger(Logger logger)
-    {
-        this.logger = logger;
         return this;
     }
 
@@ -53,7 +49,8 @@ private:
 public:
     this(ref CHIP8Settings config)
     {
-        logger = config.logger;
+        Logger logger = get_logger();
+
         display = config.display;
         cpu = config.cpu;
 
@@ -72,13 +69,16 @@ public:
 
     override void run_on_this_thread()
     {
+        Logger logger = get_logger();
+
         logger.info("\n\t(CHIP8): Emulator is running on this thread.");
 
         memory.running = true;
-        while(memory.running)
+        while(true)
         {
-            cpu.execute(memory, display, logger);
+            cpu.execute(memory, display, common.delta_timing.get_delta_time());
             display.draw();
+            Thread.sleep(dur!("msecs")(10));
         }
 
         logger.info("\n\t(CHIP8): Emulator has stopped running on this thread.");
