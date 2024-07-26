@@ -15,7 +15,6 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -24,5 +23,6 @@ jobs:
 
     - name: 'Build & Test'
       run: |
+        sudo apt install sdl2
         dub build --compiler=$DC
         dub test --compiler=$DC
