@@ -12,7 +12,7 @@ import emulators.chip8.cpu.interpreter;
 import emulators.chip8.display.sdl;
 import emulators.chip8.emulator;
 
-immutable romPath = "roms/chip8/hires/Astro Dodge Hires [Revival Studios, 2008].ch8";
+immutable romPath = "roms/chip8/hires/Hires Particle Demo [zeroZshadow, 2008].ch8";
 
 int main(string[] arguments)
 {
