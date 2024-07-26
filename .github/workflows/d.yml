@@ -23,6 +23,6 @@ jobs:
 
     - name: 'Build & Test'
       run: |
-        sudo apt install sdl2
+        sudo apt install libsdl2-dev
         dub build --compiler=$DC
         dub test --compiler=$DC
