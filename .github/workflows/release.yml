@@ -1,0 +1,30 @@
+name: Build and Deploy (Release)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Dlang
+        uses: dlang-community/setup-dlang@4c99aa991ce7d19dd3064de0a4f2f6b2f152e2d7
+      
+      - name: Build
+        run: |
+          sudo apt install libsdl2-dev
+          dub build --compiler=$DC -a=x86_64 -b=release -c=application
+      
+      - name: Deploy
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dbox.exe
