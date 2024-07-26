@@ -28,3 +28,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dbox.exe
+          tag_name: autorelease
+          make_latest: true
