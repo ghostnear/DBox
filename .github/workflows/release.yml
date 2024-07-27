@@ -1,4 +1,4 @@
-name: Build and Deploy (Release)
+name: Build and Deploy (Ubuntu Release)
 
 on:
   push:
@@ -12,6 +12,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +29,6 @@ jobs:
       - name: Deploy
         uses: softprops/action-gh-release@v2
         with:
-          files: dbox.exe
+          files: dbox
           tag_name: autorelease
           make_latest: true
