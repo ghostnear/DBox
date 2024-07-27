@@ -2,9 +2,9 @@ name: Build and Deploy (Ubuntu Release)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "release" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "release" ]
 
 permissions:
   contents: read
@@ -25,10 +25,11 @@ jobs:
         run: |
           sudo apt install libsdl2-dev
           dub build --compiler=$DC -a=x86_64 -b=release -c=application
+          mv dbox dbox-linux-x86_64
       
       - name: Deploy
         uses: softprops/action-gh-release@v2
         with:
-          files: dbox
-          tag_name: autorelease
+          files: dbox-linux-x86_64
+          tag_name: latest
           make_latest: true
