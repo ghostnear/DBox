@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
           sudo apt install libsdl2-dev
-          dub build --compiler=$DC -a=x86_64 -b=release -c=application
+          dub build -c=release --build release --compiler=$DC -a=x86_64
           mv dbox dbox-linux-x86_64
       
       - name: Deploy
