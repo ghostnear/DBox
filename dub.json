@@ -8,6 +8,46 @@
 	"libs": [
 		"SDL2"
 	],
+	"configurations": [
+		{
+			"name": "unittest",
+			"targetType": "library",
+			"targetName": "dbox-test",
+			"mainSourceFile": "tests.d",
+			"targetPath": "bin",
+			"workingDirectory": "bin",
+			"dependencies": {
+				"silly": {
+					"version": "~>1.1.1"
+				}
+			}
+		},
+		{
+			"name": "debug",
+			"targetName": "dbox-debug",
+			"targetType": "executable",
+			"targetPath": "bin",
+			"workingDirectory": "bin"
+		},
+		{
+			"name": "release",
+			"targetType": "executable",
+			"targetName": "dbox",
+			"targetPath": "bin",
+			"workingDirectory": "bin"
+		}
+	],
+	"buildTypes": {
+		"unittest": {
+            "buildOptions": ["unittests", "debugMode", "debugInfo"]
+        },
+		"debug": {
+            "buildOptions": ["debugMode", "debugInfo", "warningsAsErrors"]
+        },
+        "release": {
+            "buildOptions": ["releaseMode", "optimize", "noBoundsCheck", "inline"]
+        }
+	},
 	"subConfigurations": {
 		"bindbc-sdl": "dynamic"
 	},

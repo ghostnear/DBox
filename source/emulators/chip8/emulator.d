@@ -1,6 +1,7 @@
 module emulators.chip8.emulator;
 
 import std.file;
+import std.json;
 import std.stdio;
 import std.logger;
 import core.thread;
@@ -11,6 +12,7 @@ import common.delta_timing;
 import emulators.chip8.memory;
 import emulators.chip8.cpu.common;
 import emulators.chip8.cpu.interpreter;
+import emulators.chip8.display.sdl;
 import emulators.chip8.display.common;
 
 class CHIP8Settings
@@ -37,6 +39,16 @@ public:
         this.cpu = cpu;
         return this;
     }
+
+    CHIP8Settings from_json(string path)
+    {
+        string content = readText(path);
+        JSONValue config = parseJSON(content);
+        return this
+            .set_rom_path(config["romPath"].str)
+            .set_CPU(new Interpreter().from_json(config["cpu"]))
+            .set_display(new SDLDisplay().from_json(config["display"]));
+    }
 }
 
 class CHIP8Emulator : Emulator
@@ -47,7 +59,7 @@ private:
     Display display;
 
 public:
-    this(ref CHIP8Settings config)
+    this(CHIP8Settings config)
     {
         Logger logger = get_logger();
 

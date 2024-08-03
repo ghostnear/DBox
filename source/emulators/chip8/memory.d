@@ -58,12 +58,12 @@ public:
         memory[startAddress .. startAddress + data.length] = data;
     }
 
-    ubyte get_byte(ushort address)
+    ubyte get_byte(ushort address) const
     {
         return memory[address];
     }
 
-    ushort get_word(ushort address)
+    ushort get_word(ushort address) const
     {
         return memory[address] << 8 | memory[address + 1];
     }

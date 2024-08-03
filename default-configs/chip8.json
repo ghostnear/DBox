@@ -1,0 +1,23 @@
+{
+    "romPath": "roms/chip8/games/Tetris [Fran Dachille, 1991].ch8",
+    "cpu":
+    {
+        "speed": 500,
+        "mode": 0
+    },
+    "display":
+    {
+        "foreground":
+        {
+            "r": 200,
+            "g": 200,
+            "b": 200
+        },
+        "background":
+        {
+            "r": 30,
+            "g": 30,
+            "b": 30
+        }
+    }
+}

@@ -10,13 +10,16 @@ import emulators.chip8.memory;
 import emulators.chip8.cpu.common;
 import emulators.chip8.display.common;
 
+// TODO: GCCJITd JIT emulator.
+// https://github.com/ibuclaw/gccjitd/blob/master/examples/brainf.d
+
 class Interpreter : CPU
 {
 private:
     Random random_generator;
     double delta_timer;
 
-    void unknown_opcode(Memory memory, ushort opcode)
+    void unknown_opcode(Memory memory, ushort opcode) const
     {
         throw new Exception(format(
             "(CHIP8): Unknown opcode found at address 0x%04X: %04X",
@@ -24,6 +27,7 @@ private:
         ));
     }
 
+public:
     void step(ref Memory memory, ref Display display, double delta_time)
     {
         Logger logger = get_logger();
@@ -56,7 +60,7 @@ private:
                 display.clear();
                 break;
             case 0x0EE:
-                memory.PC = memory.stack[memory.SP--];
+                memory.PC = memory.stack[--memory.SP];
                 break;
             case 0x230:
                 if(mode == CHIP8Mode.HIRES)
@@ -88,7 +92,7 @@ private:
             break;
 
         case 0x2:
-            memory.stack[++memory.SP] = memory.PC;
+            memory.stack[memory.SP++] = memory.PC;
             memory.PC = nnn;
             break;
 

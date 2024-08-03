@@ -1,6 +1,6 @@
 # DBox
 
-![image to show this works](./.github/images/latest.gif)
+![image to show this works](./.github/images/latest.png)
 
 DBox is a multiplatform emulator written in D.
 

@@ -119,9 +119,9 @@ public:
     
         draw_flag = false;
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, background_r, background_g, background_b, 255);
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, foreground_r, foreground_g, foreground_b, 255);
         for(uint y = 0; y < height; y++)
         {
             for(uint x = 0; x < width; x++)

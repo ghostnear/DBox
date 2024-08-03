@@ -1,5 +1,11 @@
 module common.emulator;
 
+enum Emulators
+{
+    None = 0,
+    CHIP8
+}
+
 class Emulator
 {
 public:
