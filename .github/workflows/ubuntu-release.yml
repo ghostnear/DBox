@@ -25,11 +25,11 @@ jobs:
         run: |
           sudo apt install libsdl2-dev
           dub build -c=release --build release --compiler=$DC -a=x86_64
-          mv dbox dbox-linux-x86_64
+          mv bin/dbox bin/dbox-linux-x86_64
       
       - name: Deploy
         uses: softprops/action-gh-release@v2
         with:
-          files: dbox-linux-x86_64
+          files: bin/dbox-linux-x86_64
           tag_name: latest
           make_latest: true
